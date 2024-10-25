@@ -1,13 +1,18 @@
-.term{
+.term {
     position: absolute;
     top: 0;
-    top: 0;
-    left: 250px;
+    left: 250px; /* Default position when sidebar is open */
     height: 100vh;
-    width: calc(100% - 250px);
+    width: calc(100% - 250px); /* Default width when sidebar is open */
     background-color: var(--body-color);
-    transition: var(--tran-05);
+    transition: left var(--tran-05), width var(--tran-05); /* Smooth transition for left and width */
 }
+
+.term.sidebar-closed {
+    left: 88px; /* Adjust this value to match the closed sidebar width */
+    width: calc(100% - 88px); /* Adjust width when sidebar is closed */
+}
+
 .term .text{
     font-size: 30px;
     font-weight: 500;

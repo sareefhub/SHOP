@@ -1,18 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import './Sidebar.css'
+import './Sidebar.css';
 import { BiChevronRight, BiLogIn } from 'react-icons/bi';
-import { HiHome } from 'react-icons/hi'
-import { FaGamepad } from 'react-icons/fa'
-import { GiShop } from 'react-icons/gi'
+import { HiHome } from 'react-icons/hi';
+import { FaGamepad } from 'react-icons/fa';
+import { GiShop } from 'react-icons/gi';
 
-const Sidebar: React.FC = () => {
+interface SidebarProps {
+  onToggle: (closed: boolean) => void;
+}
+
+const Sidebar: React.FC<SidebarProps> = ({ onToggle }) => {
   const [sidebarClosed, setSidebarClosed] = useState(false);
-  const [darkMode, setDarkMode] = useState(
-    localStorage.getItem('darkMode') === 'true'
-  );
+  const [darkMode, setDarkMode] = useState(localStorage.getItem('darkMode') === 'true');
 
   const toggleSidebar = () => {
-    setSidebarClosed(!sidebarClosed);
+    setSidebarClosed(prevState => {
+      const newClosedState = !prevState;
+      onToggle(newClosedState); // Notify parent of the sidebar state change
+      return newClosedState;
+    });
   };
 
   const toggleDarkMode = () => {
@@ -33,16 +39,16 @@ const Sidebar: React.FC = () => {
 
   return (
     <div>
-      <nav className={sidebarClosed ? "sidebar close" : "sidebar"}>
+      <nav className={sidebarClosed ? 'sidebar close' : 'sidebar'}>
         <header>
           <div className="image-text">
-            <GiShop className="icon"></GiShop>
+            <GiShop className="icon" />
             <div className="text logo-text">
               <a className="name">SHOP</a>
               <span className="profession">Term Game</span>
             </div>
           </div>
-          <BiChevronRight className="toggle" onClick={toggleSidebar}/>
+          <BiChevronRight className="toggle" onClick={toggleSidebar} />
         </header>
         <div className="menu-bar">
           <div className="menu">
@@ -70,10 +76,10 @@ const Sidebar: React.FC = () => {
             </li>
             <li className="mode" onClick={toggleDarkMode}>
               <div className="sun-moon">
-                <i className={darkMode ? "bx bx-moon icon moon" : "bx bx-sun icon sun"}></i>
+                <i className={darkMode ? 'bx bx-moon icon moon' : 'bx bx-sun icon sun'}></i>
               </div>
               <span className="mode-text text">
-                {darkMode ? "Light mode" : "Dark mode"}
+                {darkMode ? 'Light mode' : 'Dark mode'}
               </span>
               <div className="toggle-switch">
                 <span className="switch"></span>
